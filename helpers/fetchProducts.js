@@ -1,15 +1,11 @@
 const fetchProducts = async (arg) => {
   // seu código aqui
   const linkApi = `https://api.mercadolibre.com/sites/MLB/search?q=${arg}`;
-
-  try {
-    const buscaApi = await fetch(linkApi);
-    const json = await buscaApi.json();
-    console.log(json);
-    return json;
-  } catch (error) {
-    return new Error('You must provide an url');
-  }
+  
+  const buscaApi = await fetch(linkApi);
+  const json = await buscaApi.json();
+  console.log(json);
+  return json;
 };
 
 fetchProducts('computador');
