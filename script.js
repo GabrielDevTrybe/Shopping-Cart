@@ -1,5 +1,6 @@
 // const { fetchProducts } = require("./helpers/fetchProducts");
 
+// const { fetchItem } = require("./helpers/fetchItem");
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -30,8 +31,9 @@ const listItemShopping = async (product) => {
   const minhaApi = await fetchProducts(product);
   const items = document.querySelector('.items');
 
-  minhaApi.forEach(({ id, title, thumbnail }) => {
-    const products = createProductItemElement({ id, title, thumbnail });
+  minhaApi.forEach((elemento) => {
+    const { id: sku, title: name, thumbnail: image } = elemento;
+    const products = createProductItemElement({ sku, name, image });
     items.appendChild(products);
   });
 };
@@ -49,7 +51,24 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
   li.addEventListener('click', cartItemClickListener);
   return li;
 };
+const chamaOl = document.querySelector('.cart__items');
 
-window.onload = () => {
-  listItemShopping('computador');
+const newFunc = (param) => fetchItem(param);
+
+const cardItemsCart = async () => {
+  const chamaButton = document.querySelectorAll('.item__add');
+  for (let index = 0; index < chamaButton.length; index += 1) {
+    chamaButton[index].addEventListener('click', async () => {
+      const id = chamaButton[index].parentElement.firstChild.innerText;
+      const product = await newFunc(id);
+      const { id: sku, title: name, price: salePrice } = product;
+      const criaElement = createCartItemElement({ sku, name, salePrice });
+      chamaOl.appendChild(criaElement);
+    });
+  }
+};
+
+window.onload = async () => {
+  await listItemShopping('computador');
+  cardItemsCart();
 };
