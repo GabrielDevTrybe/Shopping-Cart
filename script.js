@@ -69,6 +69,15 @@ const cardItemsCart = async () => {
   }
 };
 
+const emptyButton = document.querySelector('.empty-cart');
+
+const esvaziarCarrinho = () => {
+  const olItems = document.querySelector('.cart__items');
+  olItems.innerHTML = '';
+};
+
+emptyButton.addEventListener('click', esvaziarCarrinho);
+
 window.onload = async () => {
   await listItemShopping('computador');
   cardItemsCart();
